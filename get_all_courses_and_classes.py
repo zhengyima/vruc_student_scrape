@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 def get_from_page(page_idx):
     # url = "http://app.ruc.edu.cn/idccw/finance/StudentAction.do"
-    url = "https://v.ruc.edu.cn/educenter/api/classes?offset="+str(page_idx)+"&limit=10&name=&school_domain=v.ruc.edu.cn&timespan=1605364909980"
+    url = "https://v.ruc.edu.cn/educenter/api/courses?offset="+str(page_idx)+"&limit=10&name=&year=2019-2020&term=%E6%98%A5%E5%AD%A3%E5%AD%A6%E6%9C%9F&school_domain=v.ruc.edu.cn&timespan=1605343936876"
 
     querystring = {}
 
@@ -42,8 +42,8 @@ def get_from_page(page_idx):
 
 
 page_start = 0
-page_end = 7575
-fout = "classes_full.txt"
+page_end = 4100
+fout = "classes.txt"
 f = open(fout,'w')
 f.close()
 len_courses = 0
@@ -52,10 +52,10 @@ for page_i in range(page_start, page_end):
     # print(get_from_page(page_i))
     content = get_from_page(page_i*10)
     data =  json.loads(content)['data']
-    # len_courses += len(data['courses'])
+    len_courses += len(data['courses'])
     len_classes += len(data['classes'])
     data_str = json.dumps(data,ensure_ascii=False)
     f = open(fout,'a')
     f.write(data_str+"\n")
     f.close()    
-    print("page %d, %d classes" % (page_i, len_classes))
+    print("page %d, %d courses, %d classes" % (page_i, len_courses, len_classes))
